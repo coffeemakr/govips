@@ -11,6 +11,15 @@ int to_colorspace(VipsImage *in, VipsImage **out, VipsInterpretation space) {
 }
 
 // https://libvips.github.io/libvips/API/8.6/libvips-colour.html#vips-icc-transform
+int icc_transform_with_input_profile(VipsImage *in, VipsImage **out, char *output_profile, gboolean embedded, char *input_profile) {
+  return vips_icc_transform(in, out, output_profile, "embedded", embedded, "input_profile", input_profile, NULL);
+}
+
+int icc_transform(VipsImage *in, VipsImage **out, char *output_profile, gboolean embedded) {
+  return vips_icc_transform(in, out, output_profile, "embedded", embedded, NULL);
+}
+
+// https://libvips.github.io/libvips/API/8.6/libvips-colour.html#vips-icc-transform
 int optimize_icc_profile(VipsImage *in, VipsImage **out, int isCmyk,
                          char *srgb_profile_path, char *gray_profile_path) {
   // todo: check current embedded profile, and skip if already set

@@ -49,6 +49,26 @@ func vipsIsColorSpaceSupported(in *C.VipsImage) bool {
 	return C.is_colorspace_supported(in) == 1
 }
 
+func vipsIccTransform(in *C.VipsImage, outputProfile string, embedded bool, inputProfile string) (*C.VipsImage, error) {
+	var out *C.VipsImage
+	outputProfilePtr := C.CString(outputProfile)
+	defer C.free(unsafe.Pointer(outputProfilePtr))
+
+	var inputProfilePtr *C.char
+	if inputProfile != "" {
+		inputProfilePtr = C.CString(inputProfile)
+		defer C.free(unsafe.Pointer(inputProfilePtr))
+		if err := C.icc_transform_with_input_profile(in, &out, outputProfilePtr, toGboolean(embedded), inputProfilePtr); err != 0 {
+			return nil, handleImageError(out)
+		}
+	} else {
+		if err := C.icc_transform(in, &out, outputProfilePtr, toGboolean(embedded)); err != 0 {
+			return nil, handleImageError(out)
+		}
+	}
+	return out, nil
+}
+
 // https://libvips.github.io/libvips/API/current/libvips-colour.html#vips-colourspace
 func vipsToColorSpace(in *C.VipsImage, interpretation Interpretation) (*C.VipsImage, error) {
 	incOpCounter("to_colorspace")

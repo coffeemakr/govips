@@ -1164,6 +1164,15 @@ func (r *ImageRef) ToImage(params *ExportParams) (image.Image, error) {
 	return img, nil
 }
 
+func (r *ImageRef) IccTransform(outputProfile, inputProfile string, embedded bool) error {
+	out, err := vipsIccTransform(r.image, outputProfile, embedded, inputProfile)
+	if err != nil {
+		return err
+	}
+	r.setImage(out)
+	return nil
+}
+
 // setImage resets the image for this image and frees the previous one
 func (r *ImageRef) setImage(image *C.VipsImage) {
 	r.lock.Lock()
