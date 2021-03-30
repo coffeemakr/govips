@@ -26,8 +26,8 @@ int resize_image(VipsImage *in, VipsImage **out, double scale, gdouble vscale,
 }
 
 int thumbnail_image(VipsImage *in, VipsImage **out, int width, int height,
-                    int crop) {
-  return vips_thumbnail_image(in, out, width, "height", height, "crop", crop,
+                    int crop, bool linear) {
+  return vips_thumbnail_image(in, out, width, "height", height, "crop", crop, "linear", linear,
                               NULL);
 }
 

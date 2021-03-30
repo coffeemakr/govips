@@ -1052,8 +1052,8 @@ func (r *ImageRef) ResizeWithVScale(hScale, vScale float64, kernel Kernel) error
 // Thumbnail resizes the image to the given width and height.
 // If crop is true the returned image size will be exactly the given height and width,
 // otherwise the width and height will be within the given parameters.
-func (r *ImageRef) Thumbnail(width, height int, crop Interesting) error {
-	out, err := vipsThumbnail(r.image, width, height, crop)
+func (r *ImageRef) Thumbnail(width, height int, crop Interesting, linear bool) error {
+	out, err := vipsThumbnail(r.image, width, height, crop, linear)
 	if err != nil {
 		return err
 	}

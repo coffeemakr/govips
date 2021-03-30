@@ -1,6 +1,7 @@
 // https://libvips.github.io/libvips/API/current/libvips-resample.html
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include <vips/vips.h>
 
 int shrink_image(VipsImage *in, VipsImage **out, double xshrink,
@@ -12,6 +13,6 @@ int affine_image(VipsImage *in, VipsImage **out, double a, double b, double c,
 int resize_image(VipsImage *in, VipsImage **out, double scale, gdouble vscale,
                  int kernel);
 int thumbnail_image(VipsImage *in, VipsImage **out, int width, int height,
-                    int crop);
+                    int crop, bool linear);
 int mapim(VipsImage *in, VipsImage **out, VipsImage *index);
 int maplut(VipsImage *in, VipsImage **out, VipsImage *lut);
